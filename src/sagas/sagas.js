@@ -6,7 +6,7 @@ const API_KEY = '?appid=b3ac2239be7ac8001b1c4bbc9b7c342e';
 const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast${API_KEY}`;
 
 function fetchWeather(location) {
-  const url = `${ROOT_URL}&q=${location},pt`;
+  const url = `${ROOT_URL}&q=${encodeURI(location)}`;
   return axios.get(url);
 }
 
