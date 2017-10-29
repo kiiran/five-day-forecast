@@ -14,14 +14,14 @@ class SearchBar extends Component {
   }
 
   onInputChange(event) {
-    this.setState({ location: event.target.value.trim() });
+    this.setState({ location: event.target.value });
   }
 
   onFormSubmit(event) {
     event.preventDefault();
     const { location } = this.state;
 
-    this.props.fetchWeather(location);
+    this.props.fetchWeather(location.trim());
   }
 
   render() {
@@ -29,11 +29,12 @@ class SearchBar extends Component {
       <form onSubmit={this.onFormSubmit} className="input-group">
         <input
           placeholder="Search for a city..."
-          className="form-control"
+          className="form-control square"
           value={this.state.location}
-          onChange={this.onInputChange} />
+          onChange={this.onInputChange}
+        />
         <span className="input-group-btn">
-          <button type="submit" className="btn">
+          <button type="submit" className="btn btn-transparent square">
             <i className="fa fa-search" />
           </button>
         </span>
