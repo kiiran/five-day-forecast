@@ -19,8 +19,7 @@ class WeatherResults extends Component {
   render() {
     console.log("props in results", this.props);
     return (
-      <div>
-        <p>I'm the WeatherResults component</p>
+      <div id="weather-results">
         {this.renderForecast(this.props.weather)}
       </div>
     );
