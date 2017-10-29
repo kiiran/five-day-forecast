@@ -4,6 +4,9 @@ import store from './store';
 import SearchBar from './components/search_bar';
 import WeatherResults from './components/weather_results';
 
+import style from './css/style.css';
+import weatherIcons from './css/weather-icons.min.css';
+
 class App extends Component {
   render() {
     return (
