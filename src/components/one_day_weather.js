@@ -2,8 +2,9 @@ import React from 'react';
 
 const OneDayWeather = ({ data }) => {
   const {
-    date, description, humidity, maxTemp, minTemp, pressure, windSpeed
+    date, description, humidity, maxTemp, minTemp, pressure, windSpeed, iconID
   } = data;
+  const weatherIconClass = "wi wi-owm-day-" + iconID;
   const day = new Date(date).toLocaleDateString("en-GB", { weekday: 'short' });
   const dateString = new Date(date).toLocaleDateString("en-GB", { day: 'numeric', month: 'short' });
 
@@ -11,6 +12,7 @@ const OneDayWeather = ({ data }) => {
     <div className="one-day-weather">
       <div className="date">
         <h3>{day}<br />{dateString}</h3>
+        <i className={weatherIconClass} />
       </div>
       <div className="temperature-summary">
         <div className="temp">

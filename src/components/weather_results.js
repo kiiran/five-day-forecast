@@ -5,7 +5,8 @@ import OneDayWeather from './one_day_weather';
 
 class WeatherResults extends Component {
   renderForecast(forecast) {
-    if (!forecast.city) return;
+    if (!forecast.city) return <div></div>;
+
     const { city, list } = forecast;
     const cityName = city.name;
     const days = sortWeatherIntoDays(list);
@@ -17,7 +18,6 @@ class WeatherResults extends Component {
   }
 
   render() {
-    console.log("props in results", this.props);
     return (
       <div id="weather-results">
         {this.renderForecast(this.props.weather)}
@@ -36,7 +36,7 @@ function mergeDataForEachDay(list) {
 
   _.each(list, (item) => {
     const { dt_txt, wind, weather, main: {temp, pressure, humidity} } = item;
-    const description = weather[0].description;
+    const { description, id } = weather[0];
     const date = dt_txt.split(' ')[0];
     const dateObj = _.find(days, ['date', date]);
 
@@ -46,13 +46,15 @@ function mergeDataForEachDay(list) {
       dateObj.pressure.push( pressure );
       dateObj.temps.push( temp );
       dateObj.windSpeed.push( wind.speed );
+      dateObj.iconID.push( id );
     } else if (days.length < 5) {
       days.push({ date,
         'description': [ description ],
         'humidity':    [ humidity ],
         'pressure':    [ pressure ],
         'temps':       [ temp ],
-        'windSpeed':   [ wind.speed ]
+        'windSpeed':   [ wind.speed ],
+        'iconID':      [ id ]
       });
     }
   });
@@ -62,7 +64,7 @@ function mergeDataForEachDay(list) {
 
 function simplifyDailyData(days){
   return _.each(days, (day) => {
-    const { description, humidity, pressure, temps, windSpeed } = day;
+    const { description, humidity, iconID, pressure, temps, windSpeed } = day;
     const sortedTemps = temps.sort((a, b) => { return a - b });
 
     day.minTemp = Math.round(sortedTemps[0]);
@@ -73,6 +75,7 @@ function simplifyDailyData(days){
     day.windSpeed = Math.round(_.sum(windSpeed) / windSpeed.length);
 
     day.description = findMostCommon(description);
+    day.iconID = findMostCommon(iconID);
   });
 }
 

@@ -62,6 +62,12 @@ p { font-family: 'Raleway', sans-serif; }
 .date {
   text-align: center;
 }
+
+.date i {
+  font-size: 70px;
+  margin-top: 20px;
+}
+
 .temp {
   font-weight: bold;
   font-size: 120%;
