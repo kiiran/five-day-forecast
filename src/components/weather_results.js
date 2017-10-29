@@ -9,7 +9,7 @@ class WeatherResults extends Component {
     const { city, list } = forecast;
     const cityName = city.name;
     const days = sortWeatherIntoDays(list);
-    
+
     return days.map(day => {
       const key = cityName + day.date;
       return <OneDayWeather key={key} data={day} />;
@@ -37,7 +37,6 @@ function mergeDataForEachDay(list) {
 
   _.each(list, (item) => {
     const { dt_txt, wind, weather, main: {temp, pressure, humidity} } = item;
-    const tempInCelcius = Math.round(temp - 273.15);
     const description = weather[0].description;
     const date = dt_txt.split(' ')[0];
     const dateObj = _.find(days, ['date', date]);
@@ -46,14 +45,14 @@ function mergeDataForEachDay(list) {
       dateObj.description.push( description );
       dateObj.humidity.push( humidity );
       dateObj.pressure.push( pressure );
-      dateObj.temps.push( tempInCelcius );
+      dateObj.temps.push( temp );
       dateObj.windSpeed.push( wind.speed );
     } else if (days.length < 5) {
       days.push({ date,
         'description': [ description ],
         'humidity':    [ humidity ],
         'pressure':    [ pressure ],
-        'temps':       [ tempInCelcius ],
+        'temps':       [ temp ],
         'windSpeed':   [ wind.speed ]
       });
     }
@@ -67,8 +66,8 @@ function simplifyDailyData(days){
     const { description, humidity, pressure, temps, windSpeed } = day;
     const sortedTemps = temps.sort((a, b) => { return a - b });
 
-    day.minTemp = sortedTemps[0];
-    day.maxTemp = sortedTemps[sortedTemps.length-1];
+    day.minTemp = Math.round(sortedTemps[0]);
+    day.maxTemp = Math.round(sortedTemps[sortedTemps.length-1]);
 
     day.humidity = Math.round(_.sum(humidity) / humidity.length);
     day.pressure = Math.round(_.sum(pressure) / pressure.length);
