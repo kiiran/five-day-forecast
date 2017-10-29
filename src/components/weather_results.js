@@ -9,12 +9,11 @@ class WeatherResults extends Component {
     const { city, list } = forecast;
     const cityName = city.name;
     const days = sortWeatherIntoDays(list);
-
-    return (
-      <div key={cityName}>
-        <p style={{color: "blue"}}>{cityName}</p>
-      </div>
-    );
+    
+    return days.map(day => {
+      const key = cityName + day.date;
+      return <OneDayWeather key={key} data={day} />;
+    });
   }
 
   render() {
